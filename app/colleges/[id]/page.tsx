@@ -28,6 +28,7 @@ interface College {
   fees: number
   rating: number
   description: string
+  imageUrl: string | null
   courses: Course[]
   reviews: Review[]
   _count: { savedBy: number }
@@ -248,13 +249,7 @@ export default function CollegeDetailPage() {
           </div>
 
           {/* Key stats */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '16px',
-            marginTop: '32px',
-            maxWidth: '500px',
-          }}>
+          <div className="detail-stats">
             {[
               { label: 'Annual Fees', value: `₹${college.fees.toLocaleString('en-IN')}` },
               { label: 'Courses', value: college.courses.length },
@@ -276,9 +271,15 @@ export default function CollegeDetailPage() {
         </div>
       </div>
 
+      <div className="college-banner">
+        {college.imageUrl ? (
+          <img src={college.imageUrl} alt={college.name} />
+        ) : null}
+      </div>
+
       {/* Tabs */}
       <div style={{ borderBottom: '1px solid #1e293b', background: '#0f172a', position: 'sticky', top: '64px', zIndex: 10 }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', display: 'flex', gap: '0' }}>
+        <div className="tab-bar" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px', display: 'flex', gap: '0' }}>
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -288,12 +289,13 @@ export default function CollegeDetailPage() {
                 border: 'none',
                 borderBottom: activeTab === tab ? '2px solid #6366f1' : '2px solid transparent',
                 color: activeTab === tab ? '#6366f1' : '#64748b',
-                padding: '16px 24px',
-                fontSize: '14px',
-                fontWeight: activeTab === tab ? 600 : 400,
-                cursor: 'pointer',
-                textTransform: 'capitalize',
-                transition: 'all 0.2s',
+        padding: '16px 24px',
+        fontSize: '14px',
+        fontWeight: activeTab === tab ? 600 : 400,
+        cursor: 'pointer',
+        textTransform: 'capitalize',
+        transition: 'all 0.2s',
+        whiteSpace: 'nowrap',
               }}
             >
               {tab}
@@ -352,7 +354,7 @@ export default function CollegeDetailPage() {
             <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#f1f5f9', marginBottom: '20px' }}>
               Available Courses
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))', gap: '16px' }}>
               {college.courses.map((course) => (
                 <div key={course.id} style={{
                   background: '#1e293b',

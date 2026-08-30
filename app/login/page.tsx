@@ -58,7 +58,7 @@ export default function LoginPage() {
           maxWidth: '420px',
         }}>
           {/* Card */}
-          <div style={{
+          <div className="login-card" style={{
             background: '#1e293b',
             borderRadius: '20px',
             padding: '40px',

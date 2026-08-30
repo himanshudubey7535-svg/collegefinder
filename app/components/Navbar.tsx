@@ -55,11 +55,11 @@ export default function Navbar() {
             fontSize: '16px',
             fontWeight: 800,
           }}>C</span>
-          CollegeFinder
+          <span className="nav-brand-text">CollegeFinder</span>
         </Link>
 
         {/* Desktop Nav */}
-        <div style={{
+        <div className="nav-desktop" style={{
           display: 'flex',
           alignItems: 'center',
           gap: '32px',
@@ -177,7 +177,75 @@ export default function Navbar() {
             </div>
           )}
         </div>
+
+        <button
+          type="button"
+          className="nav-hamburger"
+          aria-label="Toggle menu"
+          onClick={() => setMenuOpen(o => !o)}
+        >
+          {menuOpen ? '✕' : '☰'}
+        </button>
       </div>
+
+      {menuOpen && (
+        <div className="nav-mobile-panel">
+          <Link href="/colleges" onClick={() => setMenuOpen(false)} style={{ color: 'var(--text-primary)', textDecoration: 'none', fontSize: '15px', padding: '10px 0' }}>
+            Colleges
+          </Link>
+          <Link href="/compare" onClick={() => setMenuOpen(false)} style={{ color: 'var(--text-primary)', textDecoration: 'none', fontSize: '15px', padding: '10px 0' }}>
+            Compare
+          </Link>
+          {user ? (
+            <>
+              <Link href="/saved" onClick={() => setMenuOpen(false)} style={{ color: 'var(--text-primary)', textDecoration: 'none', fontSize: '15px', padding: '10px 0' }}>
+                Saved
+              </Link>
+              <button
+                onClick={() => { setMenuOpen(false); handleLogout() }}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text-muted)',
+                  padding: '8px 16px',
+                  borderRadius: '6px',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  width: 'fit-content',
+                }}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <div style={{ display: 'flex', gap: '12px', padding: '8px 0 4px' }}>
+              <Link href="/login" onClick={() => setMenuOpen(false)} style={{
+                color: 'var(--text-muted)',
+                textDecoration: 'none',
+                fontSize: '14px',
+                fontWeight: 500,
+                padding: '8px 16px',
+                border: '1px solid var(--border)',
+                borderRadius: '6px',
+              }}>
+                Login
+              </Link>
+              <Link href="/register" onClick={() => setMenuOpen(false)} style={{
+                background: 'var(--accent)',
+                color: 'white',
+                textDecoration: 'none',
+                fontSize: '14px',
+                fontWeight: 500,
+                padding: '8px 16px',
+                borderRadius: '6px',
+              }}>
+                Sign Up
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
     </nav>
   )
 }

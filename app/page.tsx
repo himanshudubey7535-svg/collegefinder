@@ -3,7 +3,16 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Navbar from './components/Navbar'
-import IndiaMap from './components/IndiaMap'
+
+const floatingIcons = [
+  { icon: '🎓', top: '18%', left: '58%', delay: '0s' },
+  { icon: '📚', top: '28%', left: '82%', delay: '1.2s' },
+  { icon: '🏫', top: '58%', left: '72%', delay: '2.4s' },
+  { icon: '🔭', top: '72%', left: '88%', delay: '0.6s' },
+  { icon: '✏️', top: '42%', left: '64%', delay: '1.8s' },
+  { icon: '🏆', top: '78%', left: '54%', delay: '3s' },
+  { icon: '🗺️', top: '16%', left: '78%', delay: '2.1s' },
+]
 
 export default function HomePage() {
   const [search, setSearch] = useState('')
@@ -29,37 +38,23 @@ export default function HomePage() {
     <main style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
       <Navbar />
 
-      {/* Hero Section */}
-      <section style={{
-        position: 'relative',
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        overflow: 'hidden',
-        paddingTop: '64px',
-      }}>
-        {/* Map Background */}
-        <div style={{
-          position: 'absolute',
-          right: '-5%',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          width: '60%',
-          height: '90vh',
-          opacity: 0.6,
-        }}>
-          <IndiaMap />
-        </div>
+      <section className="hero-section">
+        <div className="hero-gradient" />
+        <div className="hero-orb hero-orb-1" />
+        <div className="hero-orb hero-orb-2" />
+        <div className="hero-orb hero-orb-3" />
 
-        {/* Gradient overlay */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to right, var(--bg-primary) 45%, transparent 80%)',
-          pointerEvents: 'none',
-        }} />
+        {floatingIcons.map((item) => (
+          <span
+            key={`${item.icon}-${item.left}`}
+            className="hero-icon"
+            style={{ top: item.top, left: item.left, animationDelay: item.delay }}
+            aria-hidden
+          >
+            {item.icon}
+          </span>
+        ))}
 
-        {/* Hero Content */}
         <div style={{
           position: 'relative',
           zIndex: 10,
@@ -68,8 +63,7 @@ export default function HomePage() {
           padding: '0 24px',
           width: '100%',
         }}>
-          <div style={{ maxWidth: '580px' }}>
-            {/* Badge */}
+          <div style={{ maxWidth: '620px' }}>
             <div style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -92,7 +86,6 @@ export default function HomePage() {
               </span>
             </div>
 
-            {/* Headline */}
             <h1 style={{
               fontSize: 'clamp(36px, 5vw, 64px)',
               fontWeight: 800,
@@ -122,11 +115,8 @@ export default function HomePage() {
               Filter by location, fees, and ratings to make the right decision.
             </p>
 
-            {/* Search Bar */}
             <form onSubmit={handleSearch}>
-              <div style={{
-                display: 'flex',
-                gap: '0',
+              <div className="hero-search" style={{
                 background: 'rgba(255,255,255,0.05)',
                 backdropFilter: 'blur(12px)',
                 border: '1px solid rgba(255,255,255,0.1)',
@@ -147,6 +137,8 @@ export default function HomePage() {
                     color: 'var(--text-primary)',
                     fontSize: '15px',
                     padding: '12px 16px',
+                    width: '100%',
+                    minWidth: 0,
                   }}
                 />
                 <button
@@ -171,7 +163,6 @@ export default function HomePage() {
               </div>
             </form>
 
-            {/* Quick filters */}
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {['IIT', 'Delhi', 'Mumbai', 'Bangalore', 'Under ₹2L'].map((tag) => (
                 <button
@@ -204,22 +195,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Stats Section */}
       <section style={{
         borderTop: '1px solid var(--border)',
         padding: '48px 24px',
       }}>
-        <div style={{
+        <div className="stats-grid" style={{
           maxWidth: '1200px',
           margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '24px',
         }}>
           {stats.map((stat) => (
             <div key={stat.label} style={{ textAlign: 'center' }}>
               <div style={{
-                fontSize: '32px',
+                fontSize: 'clamp(24px, 4vw, 32px)',
                 fontWeight: 800,
                 color: 'var(--accent-light)',
                 marginBottom: '4px',
@@ -233,13 +220,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-      `}</style>
     </main>
   )
 }

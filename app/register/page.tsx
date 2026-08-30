@@ -61,7 +61,7 @@ export default function RegisterPage() {
         padding: '24px',
       }}>
         <div style={{ width: '100%', maxWidth: '420px' }}>
-          <div style={{
+          <div className="login-card" style={{
             background: '#1e293b',
             borderRadius: '20px',
             padding: '40px',

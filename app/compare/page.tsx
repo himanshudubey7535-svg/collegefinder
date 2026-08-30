@@ -87,7 +87,7 @@ export default function ComparePage() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '40px' }}>
+        <div className="compare-selects">
           {[0, 1, 2].map((index) => (
             <div key={index}>
               <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>
@@ -129,8 +129,8 @@ export default function ComparePage() {
 
         {!loading && activeColleges.length >= 2 && (
           <div>
-            <div style={{ background: '#1e293b', borderRadius: '20px', border: '1px solid #334155', overflow: 'hidden', marginBottom: '32px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '180px ' + activeColleges.map(() => '1fr').join(' '), borderBottom: '1px solid #334155' }}>
+            <div className="compare-scroll" style={{ background: '#1e293b', borderRadius: '20px', border: '1px solid #334155', overflowX: 'auto', marginBottom: '32px', minWidth: 0 }}>
+              <div style={{ minWidth: 640, display: 'grid', gridTemplateColumns: '180px ' + activeColleges.map(() => '1fr').join(' '), borderBottom: '1px solid #334155' }}>
                 <div style={{ padding: '20px 24px', background: '#0f172a' }} />
                 {activeColleges.map((college) => (
                   <div key={college.id} style={{ padding: '20px 24px', borderLeft: '1px solid #334155', background: '#0f172a' }}>
@@ -151,7 +151,7 @@ export default function ComparePage() {
                 { label: 'Courses', values: activeColleges.map(c => c.courses.length + ' courses') },
                 { label: 'Reviews', values: activeColleges.map(c => c.reviews.length + ' reviews') },
               ].map((row, i, arr) => (
-                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '180px ' + activeColleges.map(() => '1fr').join(' '), borderBottom: i < arr.length - 1 ? '1px solid #334155' : 'none' }}>
+                <div key={row.label} style={{ minWidth: 640, display: 'grid', gridTemplateColumns: '180px ' + activeColleges.map(() => '1fr').join(' '), borderBottom: i < arr.length - 1 ? '1px solid #334155' : 'none' }}>
                   <div style={{ padding: '16px 24px', background: 'rgba(0,0,0,0.2)' }}>
                     <span style={{ fontSize: '12px', fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                       {row.label}
@@ -169,7 +169,7 @@ export default function ComparePage() {
             <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#f1f5f9', marginBottom: '16px' }}>
               Courses Offered
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: activeColleges.map(() => '1fr').join(' '), gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
               {activeColleges.map((college) => (
                 <div key={college.id} style={{ background: '#1e293b', borderRadius: '14px', padding: '20px', border: '1px solid #334155' }}>
                   <h3 style={{ fontSize: '14px', fontWeight: 700, color: '#a5b4fc', marginBottom: '12px' }}>

@@ -21,6 +21,7 @@ body {
   color: var(--text-primary);
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 /* Glassmorphism utility */
@@ -47,4 +48,258 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
+}
+
+/* Hero background */
+@keyframes heroOrbDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4%, -6%) scale(1.08); }
+  66% { transform: translate(-5%, 4%) scale(0.95); }
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.45; }
+  50% { transform: translateY(-18px) rotate(6deg); opacity: 0.8; }
+}
+
+@keyframes heroShimmer {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 64px;
+}
+
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(99, 102, 241, 0.22), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(129, 140, 248, 0.12), transparent 50%),
+    linear-gradient(135deg, #0f172a 0%, #1e1b4b 45%, #0f172a 100%);
+  background-size: 200% 200%;
+  animation: heroShimmer 18s ease infinite;
+  pointer-events: none;
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  animation: heroOrbDrift 16s ease-in-out infinite;
+}
+
+.hero-orb-1 {
+  width: 420px;
+  height: 420px;
+  background: rgba(99, 102, 241, 0.28);
+  top: 8%;
+  right: 8%;
+}
+
+.hero-orb-2 {
+  width: 280px;
+  height: 280px;
+  background: rgba(56, 189, 248, 0.12);
+  bottom: 10%;
+  right: 28%;
+  animation-delay: -6s;
+}
+
+.hero-orb-3 {
+  width: 220px;
+  height: 220px;
+  background: rgba(129, 140, 248, 0.18);
+  top: 40%;
+  left: 8%;
+  animation-delay: -10s;
+}
+
+.hero-icon {
+  position: absolute;
+  font-size: 28px;
+  user-select: none;
+  pointer-events: none;
+  animation: heroFloat 7s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(99, 102, 241, 0.25));
+}
+
+.hero-search {
+  display: flex;
+  gap: 0;
+}
+
+.nav-hamburger {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.nav-mobile-panel {
+  display: none;
+}
+
+.colleges-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.colleges-sidebar {
+  position: sticky;
+  top: 84px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.detail-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 32px;
+  max-width: 500px;
+}
+
+.college-banner {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1e293b 0%, #312e81 50%, #1e293b 100%);
+}
+
+.college-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.compare-selects {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.compare-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tab-bar {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pagination-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .colleges-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .colleges-sidebar {
+    position: static;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .compare-selects {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-icon {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-desktop {
+    display: none !important;
+  }
+
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .nav-mobile-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 24px 16px;
+    border-top: 1px solid var(--border);
+    background: rgba(15, 23, 42, 0.96);
+  }
+
+  .hero-section {
+    min-height: auto;
+    padding: 96px 0 64px;
+    align-items: flex-start;
+  }
+
+  .hero-icon {
+    display: none;
+  }
+
+  .hero-search {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hero-search button {
+    width: 100%;
+  }
+
+  .detail-stats {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
+  .college-banner {
+    height: 200px;
+  }
+
+  .login-card {
+    padding: 28px 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
 }
