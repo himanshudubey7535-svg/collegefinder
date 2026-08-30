@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Navbar from '../components/Navbar'
 import Link from 'next/link'
@@ -13,7 +13,6 @@ interface College {
   fees: number
   rating: number
   description: string
-  imageUrl: string | null
 }
 
 interface Pagination {
@@ -23,7 +22,7 @@ interface Pagination {
   totalPages: number
 }
 
-export default function CollegesPage() {
+function CollegesContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -117,14 +116,16 @@ export default function CollegesPage() {
           </p>
         </div>
 
-        <div className="colleges-layout">
+        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '28px', alignItems: 'start' }}>
 
           {/* Filter Sidebar */}
-          <aside className="colleges-sidebar" style={{
+          <aside style={{
             background: '#1e293b',
             borderRadius: '16px',
             padding: '24px',
             border: '1px solid #334155',
+            position: 'sticky',
+            top: '84px',
           }}>
             <div style={{
               display: 'flex',
@@ -286,16 +287,13 @@ export default function CollegesPage() {
                   <div key={i} style={{
                     background: '#1e293b',
                     borderRadius: '16px',
-                    overflow: 'hidden',
+                    padding: '24px',
                     border: '1px solid #334155',
                     animation: 'pulse 1.5s ease-in-out infinite',
                   }}>
-                    <div style={{ height: '160px', background: '#334155' }} />
-                    <div style={{ padding: '24px' }}>
-                      <div style={{ height: '20px', background: '#334155', borderRadius: '6px', marginBottom: '12px' }} />
-                      <div style={{ height: '14px', background: '#334155', borderRadius: '6px', width: '60%', marginBottom: '8px' }} />
-                      <div style={{ height: '14px', background: '#334155', borderRadius: '6px', width: '40%' }} />
-                    </div>
+                    <div style={{ height: '20px', background: '#334155', borderRadius: '6px', marginBottom: '12px' }} />
+                    <div style={{ height: '14px', background: '#334155', borderRadius: '6px', width: '60%', marginBottom: '8px' }} />
+                    <div style={{ height: '14px', background: '#334155', borderRadius: '6px', width: '40%' }} />
                   </div>
                 ))}
               </div>
@@ -353,7 +351,7 @@ export default function CollegesPage() {
               <>
                 <div style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
                   gap: '20px',
                   marginBottom: '32px',
                 }}>
@@ -367,13 +365,11 @@ export default function CollegesPage() {
                         style={{
                           background: '#1e293b',
                           borderRadius: '16px',
-                          overflow: 'hidden',
+                          padding: '24px',
                           border: '1px solid #334155',
                           cursor: 'pointer',
                           transition: 'all 0.25s ease',
                           height: '100%',
-                          display: 'flex',
-                          flexDirection: 'column',
                         }}
                         onMouseEnter={e => {
                           e.currentTarget.style.borderColor = '#6366f1'
@@ -386,29 +382,6 @@ export default function CollegesPage() {
                           e.currentTarget.style.boxShadow = 'none'
                         }}
                       >
-                        {college.imageUrl ? (
-                          <img
-                            src={college.imageUrl}
-                            alt={college.name}
-                            style={{
-                              width: '100%',
-                              height: '160px',
-                              objectFit: 'cover',
-                              borderRadius: '16px 16px 0 0',
-                              display: 'block',
-                            }}
-                          />
-                        ) : (
-                          <div
-                            style={{
-                              height: '160px',
-                              borderRadius: '16px 16px 0 0',
-                              background: 'linear-gradient(135deg, #312e81 0%, #6366f1 50%, #1e293b 100%)',
-                            }}
-                          />
-                        )}
-
-                        <div style={{ padding: '20px 24px 24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                         {/* Rating badge */}
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
                           <div style={{
@@ -492,7 +465,6 @@ export default function CollegesPage() {
                             View Details →
                           </div>
                         </div>
-                        </div>
                       </div>
                     </Link>
                   ))}
@@ -500,7 +472,7 @@ export default function CollegesPage() {
 
                 {/* Pagination */}
                 {pagination && pagination.totalPages > 1 && (
-                  <div className="pagination-wrap">
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: '8px' }}>
                     <button
                       onClick={() => setPage(p => Math.max(1, p - 1))}
                       disabled={page === 1}
@@ -559,6 +531,20 @@ export default function CollegesPage() {
         </div>
       </div>
 
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
     </main>
+  )
+}
+
+export default function CollegesPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }} />}>
+      <CollegesContent />
+    </Suspense>
   )
 }
